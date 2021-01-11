@@ -46,7 +46,8 @@ class _AuthenState extends State<Authen> {
 
   TextButton buildRegister() {
     return TextButton(
-      onPressed: () {},
+      //Route แบบ pushName คือ ปูทับหน้าเดิมยังอยู่
+      onPressed: () =>Navigator.pushNamed(context, '/register'),
       child: Text(
         'New Register',
         style: MyStyle().pinkStyle(),

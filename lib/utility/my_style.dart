@@ -5,9 +5,15 @@ class MyStyle {
   Color darkColor = Color(0xff0086c3);
   Color primaryColor = Color(0xff29b6f6);
   Color lightColor = Color(0xff73e8ff);
-  
+
   //Method
   TextStyle whiteStyle() => TextStyle(color: Colors.white);
   TextStyle pinkStyle() => TextStyle(color: Colors.pink);
+
+//Methodหาอัตราส่วนหน้าจอ
+  double findScreen(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
   MyStyle();
 }
