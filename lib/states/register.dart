@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -19,6 +20,14 @@ class _RegisterState extends State<Register> {
     super.initState();
     //เรียกฟังก์ชั่นหา Lat,Long
     findLatLong();
+    findToken();
+  }
+
+  Future<Null> findToken() async {
+    //awaitคือคำสั่งที่ให้ทำจนกว่าจะเสร็จ ถ้าเสร็จแล้วให้ทำคำสั่งหลังจากThen
+    await Firebase.initializeApp().then((value) {
+      print('###########  initialize Success  #############');
+    });
   }
 
   //ประกาศตัวแปร
@@ -165,15 +174,15 @@ class _RegisterState extends State<Register> {
 
         child: lat == null
             ? MyStyle().showProgress()
-              : Text('Lat= $lat , Long= $long'),
-            // : GoogleMap(
-            //     markers: markers(),
-            //     initialCameraPosition: CameraPosition(
-            //       target: LatLng(lat, long),
-            //       zoom: 16,
-            //     ),
-            //     onMapCreated: (controller) {},
-            //   ),
+            : Text('Lat= $lat , Long= $long'),
+        // : GoogleMap(
+        //     markers: markers(),
+        //     initialCameraPosition: CameraPosition(
+        //       target: LatLng(lat, long),
+        //       zoom: 16,
+        //     ),
+        //     onMapCreated: (controller) {},
+        //   ),
       ),
     );
   }
