@@ -6,6 +6,9 @@ class MyStyle {
   Color primaryColor = Color(0xff29b6f6);
   Color lightColor = Color(0xff73e8ff);
 
+//loading
+  Widget showProgress() => Center(child: CircularProgressIndicator());
+
   //Method
   TextStyle whiteStyle() => TextStyle(color: Colors.white);
   TextStyle pinkStyle() => TextStyle(color: Colors.pink);

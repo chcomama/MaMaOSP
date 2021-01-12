@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:mamaosp/utility/my_style.dart';
 
 class Register extends StatefulWidget {
@@ -9,6 +11,41 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   double screen; //ประกาศตัวแปรใช้ได้เฉพาะClassนี้
   String typeUser;
+  double lat, long;
+
+  //ทำงานก่อนBuildอีกที
+  @override
+  void initState() {
+    super.initState();
+    //เรียกฟังก์ชั่นหา Lat,Long
+    findLatLong();
+  }
+
+  //ประกาศตัวแปร
+  //ทำงานแล้วรอผลลัพธ์ --> Tradจะมีคำว่าasyncเสมอ
+  //หาค่าLatLong
+  Future<Null> findLatLong() async {
+    //ต้องการสั่งให้findLocationDataส่งค่ามาที่data ต้องใช้คำสั่ง await
+    LocationData data = await findLocationData();
+    //Refreshหน้าจอก่อนโชว์ค่า
+    setState(() {
+      lat = data.latitude;
+      long = data.longitude;
+    });
+  }
+
+  //หาLocation
+  //ต้องติดตั้งLibralyก่อนถึงจะเรียกได้
+  Future<LocationData> findLocationData() async {
+    Location location = Location();
+    try {
+      //ถ้ามีค่าให้ส่งค่ากลับ
+      return location.getLocation();
+    } catch (e) {
+      //ถ้าไม่มีให้เป็นค่าว่าง
+      return null;
+    }
+  }
 
   Container buildName() {
     return Container(
@@ -86,6 +123,7 @@ class _RegisterState extends State<Register> {
   }
 
   @override
+  //buildทำงานอันเรียกเสมอ
   Widget build(BuildContext context) {
     //เรียก Methodหาหน้าจอ
     screen = MyStyle().findScreen(context);
@@ -102,17 +140,40 @@ class _RegisterState extends State<Register> {
             buildRadioShoper(),
             buildUser(),
             buildPassword(),
-            Expanded(
-              //ขอบเขตของแผนที่ Expanded ใช้พื้นที่ที่เหลือ
-              child: Container(
-                margin: EdgeInsets.all(16), //all ทั้ง4ด้าน
-                width: screen,
-                color: Colors.grey,
-                child: Text('This is Map'),
-              ),
-            )
+            buildMap()
           ],
         ),
+      ),
+    );
+  }
+
+  Set<Marker> markers() => <Marker>[
+        Marker(
+          markerId: MarkerId('idMarker1'),
+          position: LatLng(lat, long),
+          infoWindow: InfoWindow(
+              title: 'คุณอยู่ที่นี่', snippet: 'Lat = $lat , Long = $long'),
+        ),
+      ].toSet();
+
+  Expanded buildMap() {
+    return Expanded(
+      //ขอบเขตของแผนที่ Expanded ใช้พื้นที่ที่เหลือ
+      child: Container(
+        margin: EdgeInsets.all(16), //all ทั้ง4ด้าน
+        width: screen,
+
+        child: lat == null
+            ? MyStyle().showProgress()
+              : Text('Lat= $lat , Long= $long'),
+            // : GoogleMap(
+            //     markers: markers(),
+            //     initialCameraPosition: CameraPosition(
+            //       target: LatLng(lat, long),
+            //       zoom: 16,
+            //     ),
+            //     onMapCreated: (controller) {},
+            //   ),
       ),
     );
   }

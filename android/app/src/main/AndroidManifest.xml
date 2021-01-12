@@ -3,6 +3,8 @@
    <application
         android:label="mamaosp"
         android:icon="@mipmap/ic_launcher">
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBba0AcOUCJI0cZreLTxxTPnGueemDtrd4"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

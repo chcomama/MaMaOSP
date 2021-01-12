@@ -28,8 +28,8 @@ class _AuthenState extends State<Authen> {
             colors: <Color>[Colors.white, MyStyle().primaryColor],
           ),
         ),
-        child: Center(
-          child: Column(
+        child: Center(//จัดให้อยู่กึ่งกลางของหน้าจอ
+          child: Column(//แสดงผลจากบนลงล่าง
             mainAxisSize: MainAxisSize.min, //กำหนดให้ขนาดพอดีกับlogo
             children: [
               bulidLogo(),
@@ -45,7 +45,7 @@ class _AuthenState extends State<Authen> {
   }
 
   TextButton buildRegister() {
-    return TextButton(
+    return TextButton( //เมื่อคำว่า New Register
       //Route แบบ pushName คือ ปูทับหน้าเดิมยังอยู่
       onPressed: () =>Navigator.pushNamed(context, '/register'),
       child: Text(
